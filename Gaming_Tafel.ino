@@ -27,6 +27,10 @@
 //test Git
 
 //=======================================
+// --------- HEADER -----------------
+
+#include "defcolors.h"
+
 // --------- LIBRARIES -----------------
 
 #include <Adafruit_NeoPixel.h>
@@ -44,6 +48,9 @@ int adaptValue = 0;  // variable to store the value coming from the sensor
 const int buttonPin = 2;    // the number of the pushbutton pin
 
 const int ledPin = 13;      // the number of the LED pin
+
+int sixplace[] = { 0, 1, 18, 36, 54, 74, 92, 110, 128,129,149,150 }; //led numbers for six places
+int eightplace[] = { 0, 12, 26, 40, 54, 74, 88, 102 , 116,129,149,150 }; //led numbers for eight places
 
 
 // --------- OBJECTS -----------------
@@ -243,47 +250,35 @@ void modeWit()
 void modeSpelers()
 {
   // aantal spelers instellen
-  numplayers = (adaptValue / 120) + 2 ;
+  numplayers = (adaptValue / 120) + 2 ; // between 2 and 10
   // aantal pixels delen door aantal spelers = pixels per speler
   pixperplayer = NUMPIXELS / numplayers;
   //for loop for color
-  for (int j = 2; j < numplayers; j++) { //for each player
-    for (int i = (j - 2) * pixperplayer; i < (j - 2) * pixperplayer + pixperplayer; i++) { // For each pixel...
 
-      // pixels.Color() takes RGB values, from 0,0,0 up to 255,255,255
-      // Here we're using a moderately bright green color:
-      switch (j) {
-        case 2:
-          pixels.setPixelColor(i, pixels.Color(0, 0, 150));
-          break;
-        case 3:
-          pixels.setPixelColor(i, pixels.Color(0, 150, 0));
-          break;
-        case 4:
-          pixels.setPixelColor(i, pixels.Color(0, 150, 150));
-          break;
-        case 5:
-          pixels.setPixelColor(i, pixels.Color(150, 0, 0));
-          break;
-        case 6:
-          pixels.setPixelColor(i, pixels.Color(150, 0, 150));
-          break;
-        case 7:
-          pixels.setPixelColor(i, pixels.Color(150, 150, 0));
-          break;
-        case 8:
-          pixels.setPixelColor(i, pixels.Color(150, 150, 150));
-          break;
-        case 9:
-          pixels.setPixelColor(i, pixels.Color(0, 150, 250));
-          break;
-        case 10:
-          pixels.setPixelColor(i, pixels.Color(250, 150, 0));
-          break;
+  for (int j = 1; j < 10; j++) { //for each player
+      if (numplayers<9){
+          for (int i = sixplace[j]; i < sixplace[j+1]; i++) { // For each pixel...
+
+            // pixels.Color() takes RGB values, from 0,0,0 up to 255,255,255
+
+             
+                  pixels.setPixelColor(i, pixels.Color(playerColors[numplayers][j][0], playerColors[numplayers][j][1], playerColors[numplayers][j][2]));
+           
+              }
+		  } else{
+
+          for (int i = eightplace[j]; i < eightplace[j + 1]; i++) { // For each pixel...
+
+            // pixels.Color() takes RGB values, from 0,0,0 up to 255,255,255
+
+
+              pixels.setPixelColor(i, pixels.Color(playerColors[numplayers][j][0], playerColors[numplayers][j][1], playerColors[numplayers][j][2]));
+
+
+          }
+      
+
       }
-
-
-    }
   }
   pixels.show();   // Send the updated pixel colors to the hardware.
 
