@@ -112,8 +112,8 @@ void loop() {
   checkButton();
   switch (mode) {
     case 0: //RGB
-    //neoPixel();
-      break;
+        modeRGB();
+        break;
     case 1: //Wit
       break;
     case 2: //Spel

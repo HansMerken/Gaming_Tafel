@@ -8,7 +8,6 @@
         "${projectRoot}..\\..\\..\\Documents\\Arduino\\libraries\\Adafruit_NeoPixel",
         "${projectRoot}..\\..\\..\\..\\..\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\cores\\arduino",
         "${projectRoot}..\\..\\..\\..\\..\\Program Files (x86)\\Arduino\\hardware\\arduino\\avr\\variants\\standard",
-        "${projectRoot}..\\GAMING~1",
         "${projectRoot}..\\..\\..\\..\\..\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\\\lib\\gcc\\avr\\7.3.0\\include",
         "${projectRoot}..\\..\\..\\..\\..\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\avr\\include",
         "${projectRoot}..\\..\\..\\..\\..\\Program Files (x86)\\Arduino\\hardware\\tools\\avr\\\\lib\\gcc\\avr\\7.3.0\\include",
