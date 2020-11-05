@@ -51,6 +51,10 @@ const int ledPin = 13;      // the number of the LED pin
 
 int sixplace[] = { 0, 1, 18, 36, 54, 74, 92, 110, 128,129,149,150 }; //led numbers for six places
 int eightplace[] = { 0, 12, 26, 40, 54, 74, 88, 102 , 116,129,149,150 }; //led numbers for eight places
+//set hue for 150 values
+uint16_t hueRGB[150];
+unsigned long period = 1000;  //the value is a number of milliseconds
+
 
 
 // --------- OBJECTS -----------------
@@ -60,10 +64,9 @@ Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
 // --------- VARIABLES -----------------
 
-int red = 255;
-int green = 255;
-int blue = 255;
+
 uint8_t brightness = 255;
+unsigned long startMillis;  //some global variables available anywhere in the program
 unsigned long currentMillis = 0;
 int numplayers = 2;
 int mode = 0;
@@ -74,7 +77,7 @@ int ledState = HIGH;         // the current state of the output pin
 int pixperplayer;
 unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
 unsigned long debounceDelay = 50;    // the debounce time; increase if the output flickers
-
+int startpixel = 0;
 //=======================================
 
 void setup() {
@@ -219,7 +222,27 @@ void neoPixel()
 
 void modeRGB()
 {
+    for (int i = 0; i < NUMPIXELS; i++)
+    {
+        if (NUMPIXELS > i + startpixel)
+        {
+            pixels.setPixelColor(i + startpixel, pixels.ColorHSV(hueRGB[i]));
+        }
+        else
+        {
+            pixels.setPixelColor(i + startpixel - NUMPIXELS, pixels.ColorHSV(hueRGB[i]));
+        }
 
+    }
+    period = map(adaptValue, 0, 1024, 10, 1000);
+
+    if (currentMillis - startMillis >= period)  //test whether the period has elapsed
+    {
+        startpixel++;
+        startMillis = currentMillis;  //IMPORTANT to save the start time of the current LED state.
+    }
+
+    if (startpixel > 150) startpixel = 0;
 }
 
 
@@ -227,19 +250,15 @@ void modeRGB()
 
 void modeWit()
 {
-    pixels.clear(); // Set all pixel colors to 'off'
+    //pixels.clear(); // Set all pixel colors to 'off'
 
   // The first NeoPixel in a strand is #0, second is 1, all the way up
   // to the count of pixels minus one.
-    for (int i = 0; i < NUMPIXELS; i++) { // For each pixel...
 
-      // pixels.Color() takes RGB values, from 0,0,0 up to 255,255,255
-      // Here we're using a moderately bright green color:
-        pixels.setPixelColor(i, pixels.Color(255, 255, 255));
+    pixels.fill(pixels.Color(255, 255, 255));
 
-        
-    }
-    pixels.show();   // Send the updated pixel colors to the hardware.
+
+
 
 
 }
@@ -255,7 +274,7 @@ void modeSpelers()
   pixperplayer = NUMPIXELS / numplayers;
   //for loop for color
 
-  for (int j = 1; j < 10; j++) { //for each player
+  for (int j = 0; j < 10; j++) { //for each player
       if (numplayers<9){
           for (int i = sixplace[j]; i < sixplace[j+1]; i++) { // For each pixel...
 
@@ -280,7 +299,7 @@ void modeSpelers()
 
       }
   }
-  pixels.show();   // Send the updated pixel colors to the hardware.
+
 
 }
 
@@ -289,5 +308,8 @@ void modeSpelers()
 
 void modeSubtiel()
 {
+    uint16_t hueSubtiel = currentMillis;
+    uint32_t rgbcolor = pixels.ColorHSV(hueSubtiel);
+    pixels.fill(rgbcolor);
 
 }
