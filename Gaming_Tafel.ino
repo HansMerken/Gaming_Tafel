@@ -61,6 +61,7 @@ unsigned long period = 1000;  //the value is a number of milliseconds
 
 Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
+//comment
 
 // --------- VARIABLES -----------------
 
